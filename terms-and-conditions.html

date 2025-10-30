@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms & Conditions | Rana Rankers</title>
+  <meta name="description" content="Read the Terms & Conditions of Rana Rankers to understand the rules, policies, and acceptable use of our online education platform." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="container-xxl py-5 text-center">
+    <h1 class="text-primary mb-4">Terms & Conditions</h1>
+    <p><strong>Last Updated:</strong> October 30, 2025</p>
+  </div>
+
+  <div class="container py-5">
+    <p>Welcome to <strong>Rana Rankers</strong>! By accessing or using our website <a href="index.html">www.ranarankers.com</a>, you agree to follow the terms and conditions described below. Please read them carefully before using our services.</p>
+
+    <h3>1. Acceptance of Terms</h3>
+    <p>By visiting our website or using any of our educational materials, you agree to comply with these Terms & Conditions, along with our <a href="privacy-policy.html">Privacy Policy</a>. If you do not agree, please do not continue using our site.</p>
+
+    <h3>2. Use of Website</h3>
+    <ul>
+      <li>All study materials, notes, videos, and content are provided for educational purposes only.</li>
+      <li>You must not copy, resell, or redistribute our materials without written permission.</li>
+      <li>Any unauthorized commercial use of our content is strictly prohibited.</li>
+    </ul>
+
+    <h3>3. User Responsibilities</h3>
+    <ul>
+      <li>You agree to use our platform only for lawful purposes.</li>
+      <li>You must not upload, share, or transmit any content that is harmful, illegal, or violates others’ rights.</li>
+      <li>You are responsible for maintaining the confidentiality of your account credentials.</li>
+    </ul>
+
+    <h3>4. Intellectual Property</h3>
+    <p>All content, logos, graphics, and learning materials on Rana Rankers are the property of <strong>Rana Rankers</strong> unless stated otherwise. Reproduction or distribution without permission is not allowed.</p>
+
+    <h3>5. Limitation of Liability</h3>
+    <p>We do our best to provide accurate and up-to-date educational materials. However, Rana Rankers will not be responsible for any losses, errors, or damages resulting from the use of our services or information.</p>
+
+    <h3>6. External Links</h3>
+    <p>Our website may include links to third-party websites. We are not responsible for their content, policies, or actions. Please review their respective terms before engaging with them.</p>
+
+    <h3>7. Termination of Use</h3>
+    <p>We reserve the right to restrict or terminate access to our platform if a user violates our terms or engages in harmful activity.</p>
+
+    <h3>8. Changes to Terms</h3>
+    <p>Rana Rankers reserves the right to modify or update these Terms & Conditions at any time. Updates will be posted on this page with a new “Last Updated” date.</p>
+
+    <h3>9. Governing Law</h3>
+    <p>These Terms & Conditions are governed by the laws of India. Any disputes shall be handled in accordance with the Indian legal system.</p>
+
+    <h3>10. Contact Us</h3>
+    <p>If you have any questions or concerns regarding these Terms, please contact us:</p>
+    <ul>
+      <li><strong>Email:</strong> support@ranarankers.com</li>
+      <li><strong>Website:</strong> <a href="index.html">www.ranarankers.com</a></li>
+    </ul>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center py-4 bg-light mt-5">
+    <p class="mb-0">&copy; 2025 Rana Rankers. All Rights Reserved.</p>
+  </footer>
+
+</body>
+</html>

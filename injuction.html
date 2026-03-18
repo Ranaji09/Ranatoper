@@ -39,38 +39,45 @@
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
-<style>
     <style>
-/* Injection Mold Images Styling */
+        /* Desktop + Mobile Responsive Image */
 
 .container-fluid img {
     display: block;
-    margin: 30px auto;
+    margin: 25px auto;
 
     width: 100%;
-    max-width: 1200px;   /* desktop pe bada */
+    max-width: 1100px;
 
-    height: 550px;       /* height increase */
-    object-fit: contain; /* image cut nahi hogi */
+    height: auto;            /* 🔥 MAIN FIX */
+    object-fit: contain;
 
     border-radius: 12px;
     transition: 0.3s;
 }
 
-/* Hover effect (premium feel) */
-.container-fluid img:hover {
-    transform: scale(1.03);
-}
-
-/* Mobile responsive */
-@media (max-width: 768px) {
+/* Desktop pe thoda height control (optional) */
+@media (min-width: 992px) {
     .container-fluid img {
-        height: auto;
-        max-width: 100%;
+        max-height: 600px;
     }
 }
-</style>
-</style>
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+    .container-fluid img {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        margin: 15px auto;
+    }
+
+    h4 {
+        font-size: 18px;
+    }
+}
+    </style>
+
 <body>
     <!-- Spinner Start -->
     <div id="spinner"
@@ -117,11 +124,11 @@
                 <!-- ALL GIFS -->
                 <h4 class="text-primary text-center mt-4">Single Parting Surface</h4>
                 <img src="https://facfox.com/wp-content/uploads/2020/09/640.gif" loading="lazy" class="img-fluid d-block mx-auto mb-4"
-                    style="max-width:1000px;">
+                    style="max-width:600px;">
 
                 <h4 class="text-primary text-center mt-4">Movable Insert</h4>
                 <img src="https://facfox.com/wp-content/uploads/2020/09/640-1.gif" loading="lazy"
-                    class="img-fluid d-block mx-auto mb-4" style="max-width:1000px;">
+                    class="img-fluid d-block mx-auto mb-4" style="max-width:1100px;">
 
                 <h4 class="text-primary text-center mt-4">Hot Runner</h4>
                 <img src="https://facfox.com/wp-content/uploads/2020/09/640-3.gif" loading="lazy"

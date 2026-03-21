@@ -62,7 +62,19 @@
     height: 600px;
     overflow-y: auto; /* allows scrolling */
     position: relative;
-}    
+} 
+        /* Search input text color */
+#searchInput {
+    color: #000 !important;           /* text color black */
+    background-color: #fff !important; /* keep background white */
+    border: 1px solid #ced4da;        /* optional: standard border */
+}
+
+/* Placeholder color */
+#searchInput::placeholder {
+    color: #666 !important; /* darker gray for placeholder */
+    opacity: 1;             /* ensure visibility in all browsers */
+}
 canvas {
             display: block;
             margin: 10px auto;

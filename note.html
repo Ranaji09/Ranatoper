@@ -76,7 +76,7 @@ canvas {
             color: rgba(200, 200, 200, 0.2);
             font-size: 60px;
             pointer-events: none;
-            z-index: 6;
+            z-index: 15;
         }
     </style>
 </head>
@@ -137,9 +137,9 @@ canvas {
                             <option value="commerce">Commerce</option>
                             <option value="arts">Arts</option>
                         </select>
-                        <ul class="list-group" id="notesList">
+                        <ul class="list-group" color="block" id="notesList" >
                             <li class="list-group-item" data-category="science"
-                                onclick="openNote('notes/physics.pdf')">Physics Notes</li>
+                                onclick="openNote('note/1.pdf')">Physics Notes</li>
                             <li class="list-group-item" data-category="science"
                                 onclick="openNote('notes/chemistry.pdf')">Chemistry Notes</li>
                             <li class="list-group-item" data-category="science"
@@ -175,20 +175,85 @@ canvas {
         </div>
     </div>
 
-    <!-- Footer -->
-    <div class="container-fluid bg-dark text-light footer pt-5 mt-5">
+   <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
-                <div class="col-lg-6">
-                    <h5>Rana Ranker</h5>
-                    <p>Your online education partner for competitive exams.</p>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Quick Link</h4>
+                    <a class="btn btn-link" href="about.html">About Us</a>
+                    <a class="btn btn-link" href="contact.html">Contact Us</a>
+                    <a class="btn btn-link" href="privacy.html">Privacy Policy</a>
+                    <a class="btn btn-link" href="terms-and-conditions.html">Terms & Condition</a>
+                    <a class="btn btn-link" href="contact.html">FAQs & Help</a>
                 </div>
-                <div class="col-lg-6 text-lg-end">
-                    <p>&copy; 2026 Rana Ranker. All Rights Reserved.</p>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Contact</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Ranchi, Jhakhand, India </p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+91 7296057110</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>ranabrajesh76@gmail.com</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Gallery</h4>
+                    <div class="row g-2 pt-2">
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/course-2.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/course-3.jpg" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid bg-light p-1" src="img/course-1.jpg" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-3">Newsletter</h4>
+         <p>Our instructors are highly skilled and have years of teaching experience. Join our online platform to learn new skills anytime, anywhere.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <button type="button" id="bt" onclick=""
+                            class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        &copy; <a class="border-bottom" href="#">Rana Ranker</a>, All Right Reserved
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <div class="footer-menu">
+                            <a href="">Home</a>
+                            <a href="">Cookies</a>
+                            <a href="">Help</a>
+                            <a href="">FQAs</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Footer End -->
+
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>

@@ -35,62 +35,68 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.min.js"></script>
 
     <style>
-        /* LEFT NOTES LIST */
-       /* LEFT NOTES LIST */
+/* LEFT NOTES LIST */
 #notesList {
     max-height: 600px;
-    overflow-y: auto;
+    overflow-y: hidden;   /* hide left scroll */
     color: #000;
 }
 
+/* List items */
 #notesList .list-group-item {
     cursor: pointer;
     transition: background 0.3s;
-    color: #000 !important; /* always black */
+    color: #000 !important;
     background-color: #f8f9fa;
 }
 
-/* Hover: only background changes, text stays black */
+/* Hover: background only, text stays black */
 #notesList .list-group-item:hover {
-    background-color: #d6e4ff !important; /* highlight */
-    color: #000 !important; /* force text black */
+    background-color: #d6e4ff !important;
+    color: #000 !important;
 }
+
 /* PDF Viewer container */
 #pdfContainer {
     border: 1px solid #ddd;
     border-radius: 10px;
     height: 600px;
-    overflow-y: auto; /* vertical scroll */
-    overflow-x: hidden; /* no horizontal scroll */
+    overflow-y: auto;     /* vertical scroll */
+    overflow-x: hidden;   /* no horizontal scroll */
     position: relative;
-    padding: 10px; /* some padding */
+    padding: 10px;
 }
-        /* Search input text color */
+
+/* Search input text color */
 #searchInput {
-    color: #000 !important;           /* text color black */
-    background-color: #fff !important; /* keep background white */
-    border: 1px solid #ced4da;        /* optional: standard border */
+    color: #000 !important;
+    background-color: #fff !important;
+    border: 1px solid #ced4da;
 }
 
 /* Placeholder color */
 #searchInput::placeholder {
-    color: #666 !important; /* darker gray for placeholder */
-    opacity: 1;             /* ensure visibility in all browsers */
+    color: #666 !important;
+    opacity: 1;
 }
+
+/* Canvas styling */
 canvas {
-            display: block;
-            margin: 10px auto;
-        }
-  #pdfWatermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: rgba(200, 200, 200, 0.2);
-            font-size: 60px;
-            pointer-events: none;
-            z-index: 15;
-        }
+    display: block;
+    margin: 10px auto;
+}
+
+/* Watermark */
+#pdfWatermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(200, 200, 200, 0.2);
+    font-size: 60px;
+    pointer-events: none;
+    z-index: 15;
+}
     </style>
 </head>
 
@@ -183,7 +189,7 @@ canvas {
                         <div class="mt-3">
                             <p id="timerText" class="text-danger fw-bold"></p>
                             <a id="downloadBtn" class="btn btn-primary disabled px-4 py-2" href="#" download>
-                                Download (Wait 30 sec)
+                                Download (Wait 2 Minutes)
                             </a>
                         </div>
                     </div>
@@ -284,13 +290,15 @@ canvas {
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
     <script>
-     // Spinner hide
+// Spinner hide
 $(document).ready(function () {
     setTimeout(() => $('#spinner').removeClass('show'), 100);
 });
+
 let timer;
 let timeLeft = 120;
 
+// Open PDF
 function openNote(file) {
     const btn = document.getElementById("downloadBtn");
     btn.href = file;
@@ -299,9 +307,10 @@ function openNote(file) {
     clearInterval(timer);
     timeLeft = 120;
 
+    // Timer
     timer = setInterval(() => {
         document.getElementById("timerText").innerText =
-            "Download in: 0:" + (timeLeft < 10 ? "0" : "") + timeLeft;
+            "Download in: " + Math.floor(timeLeft / 60) + ":" + (timeLeft % 60 < 10 ? "0" : "") + (timeLeft % 60);
         timeLeft--;
         if (timeLeft < 0) {
             clearInterval(timer);
@@ -315,41 +324,51 @@ function openNote(file) {
     container.innerHTML = `<div id="pdfWatermark">Rana Ranker</div>`; // clear previous
 
     pdfjsLib.getDocument(file).promise.then(pdf => {
-        // Clear previous canvases if any
         container.querySelectorAll('canvas').forEach(c => c.remove());
-
         for (let i = 1; i <= pdf.numPages; i++) {
             pdf.getPage(i).then(page => {
-                // Get viewport with scale 1 first
                 const viewport = page.getViewport({ scale: 1 });
-
-                // Calculate scale to fit width of container (minus some padding)
-                const containerWidth = container.clientWidth - 20; // 20 for padding/margin buffer
-                const scale = containerWidth / viewport.width;
-
+                const scale = (container.clientWidth - 20) / viewport.width; // fit width
                 const scaledViewport = page.getViewport({ scale: scale });
 
                 const canvas = document.createElement("canvas");
+                canvas.width = scaledViewport.width;
+                canvas.height = scaledViewport.height;
                 canvas.style.display = "block";
                 canvas.style.margin = "10px auto";
-                canvas.height = scaledViewport.height;
-                canvas.width = scaledViewport.width;
 
                 container.appendChild(canvas);
 
-                const renderContext = {
+                page.render({
                     canvasContext: canvas.getContext('2d'),
                     viewport: scaledViewport
-                };
-
-                page.render(renderContext);
+                });
             });
         }
+        syncLeftHeight();
     }).catch(err => {
         container.innerHTML = `<iframe src="${file}" width="100%" height="600px" style="border:none; overflow-y:auto;"></iframe>`;
+        syncLeftHeight();
     });
 }
 
+// Open PPT/JPG/Other files
+function openOtherFile(file) {
+    const container = document.getElementById("pdfContainer");
+    container.innerHTML = `<iframe src="${file}" width="100%" height="600px" style="border:none;"></iframe>`;
+    syncLeftHeight();
+}
+
+// Sync left notes container height with PDF container
+function syncLeftHeight() {
+    const pdfContainer = document.getElementById('pdfContainer');
+    const leftService = document.querySelector('.col-lg-4 .service-item');
+    if (pdfContainer && leftService) {
+        leftService.style.height = pdfContainer.clientHeight + 'px';
+    }
+}
+
+// Search notes
 function searchNotes() {
     const input = document.getElementById("searchInput").value.toLowerCase();
     document.querySelectorAll("#notesList li").forEach(item => {
@@ -357,6 +376,7 @@ function searchNotes() {
     });
 }
 
+// Filter category
 function filterCategory(category) {
     document.querySelectorAll("#notesList li").forEach(item => {
         const cat = item.getAttribute("data-category");
@@ -373,6 +393,10 @@ document.addEventListener('keydown', function (e) {
         e.preventDefault();
     }
 });
+
+// Sync on load & resize
+window.addEventListener('load', syncLeftHeight);
+window.addEventListener('resize', syncLeftHeight);
                                                </script>
 </body>
 

@@ -209,40 +209,55 @@
 
         // OPEN NOTE with PDF.js
         function openNote(file) {
-            let btn = document.getElementById("downloadBtn");
-            btn.href = file;
-            btn.classList.add("disabled");
-            btn.innerText = "Download (Wait 30 sec)";
+    let btn = document.getElementById("downloadBtn");
+    btn.href = file;
+    btn.classList.add("disabled");
+    btn.innerText = "Download (Wait 30 sec)";
 
+    clearInterval(timer);
+    timeLeft = 30;
+
+    timer = setInterval(() => {
+        document.getElementById("timerText").innerText =
+            "Download in: 0:" + (timeLeft < 10 ? "0" : "") + timeLeft;
+        timeLeft--;
+        if (timeLeft < 0) {
             clearInterval(timer);
-            timeLeft = 30;
-
-            timer = setInterval(() => {
-                document.getElementById("timerText").innerText =
-                    "Download in: 0:" + (timeLeft < 10 ? "0" : "") + timeLeft;
-                timeLeft--;
-                if (timeLeft < 0) {
-                    clearInterval(timer);
-                    document.getElementById("timerText").innerText = "Download Enabled!";
-                    btn.classList.remove("disabled");
-                    btn.innerText = "Download Now";
-                }
-            }, 1000);
-
-            // PDF.js render
-            const canvas = document.getElementById("pdfViewer");
-            const context = canvas.getContext("2d");
-
-            pdfjsLib.getDocument(file).promise.then(pdf => {
-                pdf.getPage(1).then(page => {
-                    const viewport = page.getViewport({ scale: 1.5 });
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-                    page.render({ canvasContext: context, viewport: viewport });
-                });
-            });
+            document.getElementById("timerText").innerText = "Download Enabled!";
+            btn.classList.remove("disabled");
+            btn.innerText = "Download Now";
         }
+    }, 1000);
 
+    const canvas = document.getElementById("pdfViewer");
+    const context = canvas.getContext("2d");
+
+    // Try PDF.js first
+    pdfjsLib.getDocument(file).promise.then(pdf => {
+        pdf.getPage(1).then(page => {
+            const viewport = page.getViewport({ scale: 1.5 });
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
+                document.getElementById("spinner").classList.remove("show");
+            });
+        });
+    }).catch(err => {
+        // Fallback: use iframe if PDF.js fails
+        const iframe = document.getElementById("viewerFallback");
+        if (!iframe) {
+            const f = document.createElement("iframe");
+            f.id = "viewerFallback";
+            f.src = file;
+            f.width = "100%";
+            f.height = "500px";
+            f.style.border = "1px solid #ddd";
+            f.style.borderRadius = "10px";
+            canvas.replaceWith(f);
+        }
+        document.getElementById("spinner").classList.remove("show");
+    });
+}
         // SEARCH FUNCTION
         function searchNotes() {
             let input = document.getElementById("searchInput").value.toLowerCase();

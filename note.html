@@ -34,7 +34,38 @@
     <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.min.js"></script>
 
-    
+    <style>
+        /* PDF Canvas */
+        #pdfViewer {
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            width: 100%;
+        }
+
+        #pdfWatermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(200, 200, 200, 0.3);
+            font-size: 60px;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Notes list hover fix */
+        #notesList .list-group-item {
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+            color: #000;
+            background-color: #f8f9fa;
+        }
+
+        #notesList .list-group-item:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
 </head>
 
 <body>
@@ -142,7 +173,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -174,9 +204,98 @@
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/waypoints/waypoints.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-// Spinner fallback
-      <script src="js/main.js"></script>
-   
+
+    <!-- Main JS -->
+    <script>
+        // Spinner fallback
+        var spinner = function () {
+            setTimeout(function () {
+                if ($('#spinner').length > 0) {
+                    $('#spinner').removeClass('show');
+                }
+            }, 1);
+        };
+        spinner();
+
+        let timer;
+        let timeLeft = 30;
+
+        function openNote(file) {
+            const btn = document.getElementById("downloadBtn");
+            btn.href = file;
+            btn.classList.add("disabled");
+            btn.innerText = "Download (Wait 30 sec)";
+            clearInterval(timer);
+            timeLeft = 30;
+
+            timer = setInterval(() => {
+                document.getElementById("timerText").innerText =
+                    "Download in: 0:" + (timeLeft < 10 ? "0" : "") + timeLeft;
+                timeLeft--;
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    document.getElementById("timerText").innerText = "Download Enabled!";
+                    btn.classList.remove("disabled");
+                    btn.innerText = "Download Now";
+                }
+            }, 1000);
+
+            const canvas = document.getElementById("pdfViewer");
+            const context = canvas.getContext("2d");
+
+            pdfjsLib.getDocument(file).promise.then(pdf => {
+                pdf.getPage(1).then(page => {
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
+                        if ($('#spinner').length > 0) $('#spinner').removeClass('show');
+                    });
+                });
+            }).catch(err => {
+                const iframe = document.getElementById("viewerFallback");
+                if (!iframe) {
+                    const f = document.createElement("iframe");
+                    f.id = "viewerFallback";
+                    f.src = file;
+                    f.width = "100%";
+                    f.height = "500px";
+                    f.style.border = "1px solid #ddd";
+                    f.style.borderRadius = "10px";
+                    canvas.replaceWith(f);
+                }
+                setTimeout(() => {
+                    if ($('#spinner').length > 0) $('#spinner').removeClass('show');
+                }, 100);
+            });
+        }
+
+        function searchNotes() {
+            const input = document.getElementById("searchInput").value.toLowerCase();
+            const items = document.querySelectorAll("#notesList li");
+            items.forEach(item => {
+                item.style.display = item.innerText.toLowerCase().includes(input) ? "" : "none";
+            });
+        }
+
+        function filterCategory(category) {
+            const items = document.querySelectorAll("#notesList li");
+            items.forEach(item => {
+                const cat = item.getAttribute("data-category");
+                item.style.display = (category === "all" || cat === category) ? "" : "none";
+            });
+        }
+
+        // Block right-click, select, drag, keys
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('selectstart', e => e.preventDefault());
+        document.addEventListener('dragstart', e => e.preventDefault());
+        document.addEventListener('keydown', function (e) {
+            if (e.key === "F12" || (e.ctrlKey && ['s', 'S'].includes(e.key)) || (e.ctrlKey && e.shiftKey && ['I', 'i'].includes(e.key))) {
+                e.preventDefault();
+            }
+        });
+    </script>
 </body>
 
 </html>

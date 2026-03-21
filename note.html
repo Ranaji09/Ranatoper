@@ -36,40 +36,39 @@
 
     <style>
         /* LEFT NOTES LIST */
-        #notesList {
-            max-height: 600px;
-            overflow-y: auto;
-            color:#000;
-        }
+       /* LEFT NOTES LIST */
+#notesList {
+    max-height: 600px;
+    overflow-y: auto;
+    color: #000;
+}
 
-        #notesList .list-group-item {
-            cursor: pointer;
-            transition: background 0.3s, color 0.3s;
-            color: #000;
-            background-color: #f8f9fa;
-        }
+#notesList .list-group-item {
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    color: #000; /* default text color */
+    background-color: #f8f9fa;
+}
 
-        /* Keep text dark on hover but highlight background */
-        #notesList .list-group-item:hover {
-            background-color: #d6e4ff;
-            color: #000000;
-        }
+/* Hover fix: background highlight and text remains dark */
+#notesList .list-group-item:hover {
+    background-color: #d6e4ff; /* light highlight */
+    color: #000; /* text stays dark */
+}
 
-        /* PDF Viewer container */
-        #pdfContainer {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            height: 600px;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        canvas {
+/* PDF Viewer container */
+#pdfContainer {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    height: 600px;
+    overflow-y: auto; /* allows scrolling */
+    position: relative;
+}    
+canvas {
             display: block;
             margin: 10px auto;
         }
-
-        #pdfWatermark {
+  #pdfWatermark {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -77,7 +76,7 @@
             color: rgba(200, 200, 200, 0.2);
             font-size: 60px;
             pointer-events: none;
-            z-index: 10;
+            z-index: 6;
         }
     </style>
 </head>

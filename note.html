@@ -45,17 +45,16 @@
 
 #notesList .list-group-item {
     cursor: pointer;
-    transition: background 0.3s, color 0.3s;
-    color: #000; /* default text color */
+    transition: background 0.3s;
+    color: #000 !important; /* always black */
     background-color: #f8f9fa;
 }
 
-/* Hover fix: background highlight and text remains dark */
+/* Hover: only background changes, text stays black */
 #notesList .list-group-item:hover {
-    background-color: #d6e4ff !important; /* highlight background */
-    color: #000 !important; /* text stays black */
+    background-color: #d6e4ff !important; /* highlight */
+    color: #000 !important; /* force text black */
 }
-
 /* PDF Viewer container */
 #pdfContainer {
     border: 1px solid #ddd;
@@ -137,22 +136,15 @@ canvas {
                             <option value="commerce">Web Development</option>
                             <option value="arts">Hindi</option>
                         </select>
-                        <ul class="list-group" color="block" id="notesList" >
-                            <li class="list-group-item" data-category="science"
-                                onclick="openNote('note/1.pdf')">Physics Notes</li>
-                            <li class="list-group-item" data-category="science"
-                                onclick="openNote('notes/chemistry.pdf')">Chemistry Notes</li>
-                            <li class="list-group-item" data-category="science"
-                                onclick="openNote('notes/math.pdf')">Math Notes</li>
-                            <li class="list-group-item" data-category="commerce"
-                                onclick="openNote('notes/account.pdf')">Accounts Notes</li>
-                            <li class="list-group-item" data-category="commerce"
-                                onclick="openNote('notes/business.pdf')">Business Studies</li>
-                            <li class="list-group-item" data-category="arts"
-                                onclick="openNote('notes/history.pdf')">History Notes</li>
-                            <li class="list-group-item" data-category="arts"
-                                onclick="openNote('notes/geography.pdf')">Geography Notes</li>
-                        </ul>
+                        <ul class="list-group" id="notesList">
+    <li class="list-group-item" data-category="science" onclick="openNote('note/1.pdf')">Physics Notes</li>
+    <li class="list-group-item" data-category="science" onclick="openNote('notes/chemistry.pdf')">Chemistry Notes</li>
+    <li class="list-group-item" data-category="science" onclick="openNote('notes/math.pdf')">Math Notes</li>
+    <li class="list-group-item" data-category="commerce" onclick="openNote('notes/account.pdf')">Accounts Notes</li>
+    <li class="list-group-item" data-category="commerce" onclick="openNote('notes/business.pdf')">Business Studies</li>
+    <li class="list-group-item" data-category="arts" onclick="openNote('notes/history.pdf')">History Notes</li>
+    <li class="list-group-item" data-category="arts" onclick="openNote('notes/geography.pdf')">Geography Notes</li>
+</ul>
                     </div>
                 </div>
 

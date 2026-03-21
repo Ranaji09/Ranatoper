@@ -35,7 +35,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.min.js"></script>
 
     <style>
-        /* Optional watermark on PDF */
+        /* PDF Canvas */
         #pdfViewer {
             border-radius: 10px;
             border: 1px solid #ddd;
@@ -51,6 +51,19 @@
             font-size: 60px;
             pointer-events: none;
             z-index: 10;
+        }
+
+        /* Notes list hover fix */
+        #notesList .list-group-item {
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+            color: #000; /* Default text color */
+            background-color: #f8f9fa; /* Light gray background */
+        }
+
+        #notesList .list-group-item:hover {
+            background-color: #007bff; /* Bootstrap primary blue */
+            color: #fff; /* Keep text white on hover */
         }
     </style>
 </head>
@@ -182,11 +195,10 @@
     <!-- NOTES SECTION END -->
 
     <!-- Footer Start -->
-    <!-- (keep your footer exactly same as before) -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
-                <!-- ... existing footer content ... -->
+                <!-- Footer content here same as before -->
             </div>
         </div>
     </div>
@@ -209,55 +221,55 @@
 
         // OPEN NOTE with PDF.js
         function openNote(file) {
-    let btn = document.getElementById("downloadBtn");
-    btn.href = file;
-    btn.classList.add("disabled");
-    btn.innerText = "Download (Wait 30 sec)";
+            let btn = document.getElementById("downloadBtn");
+            btn.href = file;
+            btn.classList.add("disabled");
+            btn.innerText = "Download (Wait 30 sec)";
 
-    clearInterval(timer);
-    timeLeft = 30;
-
-    timer = setInterval(() => {
-        document.getElementById("timerText").innerText =
-            "Download in: 0:" + (timeLeft < 10 ? "0" : "") + timeLeft;
-        timeLeft--;
-        if (timeLeft < 0) {
             clearInterval(timer);
-            document.getElementById("timerText").innerText = "Download Enabled!";
-            btn.classList.remove("disabled");
-            btn.innerText = "Download Now";
-        }
-    }, 1000);
+            timeLeft = 30;
 
-    const canvas = document.getElementById("pdfViewer");
-    const context = canvas.getContext("2d");
+            timer = setInterval(() => {
+                document.getElementById("timerText").innerText =
+                    "Download in: 0:" + (timeLeft < 10 ? "0" : "") + timeLeft;
+                timeLeft--;
+                if (timeLeft < 0) {
+                    clearInterval(timer);
+                    document.getElementById("timerText").innerText = "Download Enabled!";
+                    btn.classList.remove("disabled");
+                    btn.innerText = "Download Now";
+                }
+            }, 1000);
 
-    // Try PDF.js first
-    pdfjsLib.getDocument(file).promise.then(pdf => {
-        pdf.getPage(1).then(page => {
-            const viewport = page.getViewport({ scale: 1.5 });
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
+            const canvas = document.getElementById("pdfViewer");
+            const context = canvas.getContext("2d");
+
+            pdfjsLib.getDocument(file).promise.then(pdf => {
+                pdf.getPage(1).then(page => {
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
+                        document.getElementById("spinner").classList.remove("show");
+                    });
+                });
+            }).catch(err => {
+                // Fallback iframe
+                const iframe = document.getElementById("viewerFallback");
+                if (!iframe) {
+                    const f = document.createElement("iframe");
+                    f.id = "viewerFallback";
+                    f.src = file;
+                    f.width = "100%";
+                    f.height = "500px";
+                    f.style.border = "1px solid #ddd";
+                    f.style.borderRadius = "10px";
+                    canvas.replaceWith(f);
+                }
                 document.getElementById("spinner").classList.remove("show");
             });
-        });
-    }).catch(err => {
-        // Fallback: use iframe if PDF.js fails
-        const iframe = document.getElementById("viewerFallback");
-        if (!iframe) {
-            const f = document.createElement("iframe");
-            f.id = "viewerFallback";
-            f.src = file;
-            f.width = "100%";
-            f.height = "500px";
-            f.style.border = "1px solid #ddd";
-            f.style.borderRadius = "10px";
-            canvas.replaceWith(f);
         }
-        document.getElementById("spinner").classList.remove("show");
-    });
-}
+
         // SEARCH FUNCTION
         function searchNotes() {
             let input = document.getElementById("searchInput").value.toLowerCase();
@@ -284,7 +296,7 @@
         document.addEventListener('selectstart', e => e.preventDefault());
         document.addEventListener('dragstart', e => e.preventDefault());
         document.addEventListener('keydown', function (e) {
-            if (e.key === "F12" || (e.ctrlKey && ['s','S'].includes(e.key)) || (e.ctrlKey && e.shiftKey && ['I','i'].includes(e.key))) {
+            if (e.key === "F12" || (e.ctrlKey && ['s', 'S'].includes(e.key)) || (e.ctrlKey && e.shiftKey && ['I', 'i'].includes(e.key))) {
                 e.preventDefault();
             }
         });

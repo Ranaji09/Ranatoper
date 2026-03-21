@@ -36,11 +36,20 @@
 
     <style>
 /* LEFT NOTES LIST */
-#notesList {
-    max-height: 600px;
-    overflow-y: hidden;   /* hide left scroll */
-    color: #000;
-}
+        #notesList {
+            max-height: 300px;
+            overflow-y: scroll;
+            scrollbar-width: none;
+            /* Firefox */
+            -ms-overflow-style: none;
+            color: #000;
+            /* IE 10+ */
+        }
+
+        #notesList::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari */
+        }
 
 /* List items */
 #notesList .list-group-item {

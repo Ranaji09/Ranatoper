@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Notes - Rana Ranker</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!-- CSS same as your file -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Navbar Start (SAME) -->
+<nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+    <a href="index.html" class="navbar-brand px-4">
+        <h2 class="text-primary">Rana Ranker</h2>
+    </a>
+</nav>
+<!-- Navbar End -->
+
+
+<!-- Notes Section Start -->
+<div class="container py-5">
+    <h2 class="text-center mb-4">Your Notes</h2>
+
+    <!-- Buttons -->
+    <div class="text-center mb-4">
+        <button class="btn btn-primary m-2" onclick="loadNotes('note/1.pdf')">Science</button>
+        <button class="btn btn-success m-2" onclick="loadNotes('notes/commerce.html')">Commerce</button>
+        <button class="btn btn-warning m-2" onclick="loadNotes('notes/arts.html')">Arts</button>
+    </div>
+
+    <!-- Notes Viewer -->
+    <div class="card">
+        <iframe id="notesFrame" src="" width="100%" height="500px" style="border:none;"></iframe>
+    </div>
+</div>
+<!-- Notes Section End -->
+
+
+<!-- Footer Start (SAME as your code) -->
+<div class="container-fluid bg-dark text-light footer pt-5 mt-5">
+    <div class="container text-center">
+        <p>&copy; Rana Ranker, All Rights Reserved.</p>
+    </div>
+</div>
+<!-- Footer End -->
+
+
+<script>
+function loadNotes(page) {
+    document.getElementById("notesFrame").src = page;
+}
+</script>
+
+</body>
+</html>

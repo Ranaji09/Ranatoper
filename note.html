@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Rana Ranker</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Rana Rankers is an online education platform that provides free and premium study materials, mock tests, and online classes for students preparing for competitive exams.">
     <meta name="keywords"
@@ -35,7 +35,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.min.js"></script>
 
     <style>
-        /* PDF Canvas */
         #pdfViewer {
             border-radius: 10px;
             border: 1px solid #ddd;
@@ -53,17 +52,16 @@
             z-index: 10;
         }
 
-        /* Notes list hover fix */
         #notesList .list-group-item {
             cursor: pointer;
             transition: background 0.3s, color 0.3s;
-            color: #000; /* Default text color */
-            background-color: #f8f9fa; /* Light gray background */
+            color: #000;
+            background-color: #f8f9fa;
         }
 
         #notesList .list-group-item:hover {
-            background-color: #007bff; /* Bootstrap primary blue */
-            color: #fff; /* Keep text white on hover */
+            background-color: #007bff;
+            color: #fff;
         }
     </style>
 </head>
@@ -128,29 +126,21 @@
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-4">
-
                 <!-- LEFT SIDE -->
                 <div class="col-lg-4 col-md-5">
                     <div class="service-item p-4">
-
                         <h4 class="mb-3">📚 Notes</h4>
-
-                        <!-- 🔍 SEARCH -->
                         <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search Notes..."
                             onkeyup="searchNotes()">
-
-                        <!-- 📂 CATEGORY -->
                         <select class="form-select mb-3" onchange="filterCategory(this.value)">
                             <option value="all">All Subjects</option>
                             <option value="science">Science</option>
                             <option value="commerce">Commerce</option>
                             <option value="arts">Arts</option>
                         </select>
-
-                        <!-- 📄 NOTES LIST -->
                         <ul class="list-group" id="notesList">
                             <li class="list-group-item" data-category="science"
-                                onclick="openNote('note/1.pdf')">Physics Notes</li>
+                                onclick="openNote('notes/physics.pdf')">Physics Notes</li>
                             <li class="list-group-item" data-category="science"
                                 onclick="openNote('notes/chemistry.pdf')">Chemistry Notes</li>
                             <li class="list-group-item" data-category="science"
@@ -164,28 +154,21 @@
                             <li class="list-group-item" data-category="arts"
                                 onclick="openNote('notes/geography.pdf')">Geography Notes</li>
                         </ul>
-
                     </div>
                 </div>
 
                 <!-- RIGHT SIDE -->
                 <div class="col-lg-8 col-md-7 position-relative">
                     <div class="service-item p-4 text-center">
-
                         <h5 class="mb-3">📖 Preview</h5>
-
                         <canvas id="pdfViewer"></canvas>
                         <div id="pdfWatermark">Rana Ranker</div>
-
-                        <!-- TIMER -->
                         <div class="mt-3">
                             <p id="timerText" class="text-danger fw-bold"></p>
-
                             <a id="downloadBtn" class="btn btn-primary disabled px-4 py-2" href="#" download>
                                 Download (Wait 30 sec)
                             </a>
                         </div>
-
                     </div>
                 </div>
 
@@ -195,10 +178,16 @@
     <!-- NOTES SECTION END -->
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5">
         <div class="container py-5">
             <div class="row g-5">
-                <!-- Footer content here same as before -->
+                <div class="col-lg-6">
+                    <h5>Rana Ranker</h5>
+                    <p>Your online education partner for competitive exams.</p>
+                </div>
+                <div class="col-lg-6 text-lg-end">
+                    <p>&copy; 2026 Rana Ranker. All Rights Reserved.</p>
+                </div>
             </div>
         </div>
     </div>
@@ -219,7 +208,6 @@
         let timer;
         let timeLeft = 30;
 
-        // OPEN NOTE with PDF.js
         function openNote(file) {
             let btn = document.getElementById("downloadBtn");
             btn.href = file;
@@ -254,7 +242,6 @@
                     });
                 });
             }).catch(err => {
-                // Fallback iframe
                 const iframe = document.getElementById("viewerFallback");
                 if (!iframe) {
                     const f = document.createElement("iframe");
@@ -270,28 +257,22 @@
             });
         }
 
-        // SEARCH FUNCTION
         function searchNotes() {
             let input = document.getElementById("searchInput").value.toLowerCase();
             let items = document.querySelectorAll("#notesList li");
-
             items.forEach(item => {
-                let text = item.innerText.toLowerCase();
-                item.style.display = text.includes(input) ? "" : "none";
+                item.style.display = item.innerText.toLowerCase().includes(input) ? "" : "none";
             });
         }
 
-        // CATEGORY FILTER
         function filterCategory(category) {
             let items = document.querySelectorAll("#notesList li");
-
             items.forEach(item => {
-                let cat = item.getAttribute("data-category");
-                item.style.display = category === "all" || cat === category ? "" : "none";
+                item.style.display = category === "all" || item.getAttribute("data-category") === category ? "" : "none";
             });
         }
 
-        // BLOCK RIGHT-CLICK, SELECT, DRAG, KEYS
+        // Block right-click, select, drag, keys
         document.addEventListener('contextmenu', e => e.preventDefault());
         document.addEventListener('selectstart', e => e.preventDefault());
         document.addEventListener('dragstart', e => e.preventDefault());
@@ -300,7 +281,9 @@
                 e.preventDefault();
             }
         });
-         <script src="js/main.js"></script>
+
+        // Spinner fallback
+        setTimeout(() => { document.getElementById("spinner").classList.remove("show"); }, 5000);
     </script>
 </body>
 

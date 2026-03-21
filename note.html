@@ -52,8 +52,8 @@
 
 /* Hover fix: background highlight and text remains dark */
 #notesList .list-group-item:hover {
-    background-color: #d6e4ff; /* light highlight */
-    color: #000; /* text stays dark */
+    background-color: #d6e4ff !important; /* highlight background */
+    color: #000 !important; /* text stays black */
 }
 
 /* PDF Viewer container */
@@ -133,9 +133,9 @@ canvas {
                             onkeyup="searchNotes()">
                         <select class="form-select mb-3" onchange="filterCategory(this.value)">
                             <option value="all">All Subjects</option>
-                            <option value="science">Science</option>
-                            <option value="commerce">Commerce</option>
-                            <option value="arts">Arts</option>
+                            <option value="science">Youtube</option>
+                            <option value="commerce">Web Development</option>
+                            <option value="arts">Hindi</option>
                         </select>
                         <ul class="list-group" color="block" id="notesList" >
                             <li class="list-group-item" data-category="science"

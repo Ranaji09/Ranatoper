@@ -35,25 +35,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.6.172/pdf.min.js"></script>
 
     <style>
-        /* PDF Canvas */
-        #pdfViewer {
-            border-radius: 10px;
-            border: 1px solid #ddd;
-            width: 100%;
+        /* LEFT NOTES LIST */
+        #notesList {
+            max-height: 600px;
+            overflow-y: auto;
         }
 
-        #pdfWatermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: rgba(200, 200, 200, 0.3);
-            font-size: 60px;
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        /* Notes list hover fix */
         #notesList .list-group-item {
             cursor: pointer;
             transition: background 0.3s, color 0.3s;
@@ -61,24 +48,47 @@
             background-color: #f8f9fa;
         }
 
+        /* Keep text dark on hover but highlight background */
         #notesList .list-group-item:hover {
-            background-color: #007bff;
-            color: #fff;
+            background-color: #d6e4ff;
+            color: #000;
+        }
+
+        /* PDF Viewer container */
+        #pdfContainer {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            height: 600px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        canvas {
+            display: block;
+            margin: 10px auto;
+        }
+
+        #pdfWatermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(200, 200, 200, 0.2);
+            font-size: 60px;
+            pointer-events: none;
+            z-index: 10;
         }
     </style>
 </head>
 
 <body>
-    <!-- Spinner Start -->
+    <!-- Spinner -->
     <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status"></div>
     </div>
-    <!-- Spinner End -->
 
-    <!-- Navbar Start -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
             <h2 class="m-0 text-primary"><i class="fa fa-book me-3"></i>Rana Ranker</h2>
@@ -103,32 +113,19 @@
                     class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
-    <!-- Navbar End -->
 
-    <!-- Header Start -->
+    <!-- Header -->
     <div class="container-fluid bg-primary py-5 mb-5 page-header">
-        <div class="container py-5">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 text-center">
-                    <h1 class="display-3 text-white animated slideInDown">Notes</h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center">
-                            <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                            <li class="breadcrumb-item text-white active" aria-current="page">About</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+        <div class="container py-5 text-center">
+            <h1 class="display-3 text-white animated slideInDown">Notes</h1>
         </div>
     </div>
-    <!-- Header End -->
 
-    <!-- NOTES SECTION START -->
+    <!-- Notes Section -->
     <div class="container-xxl py-5">
         <div class="container">
             <div class="row g-4">
-                <!-- LEFT SIDE -->
+                <!-- LEFT -->
                 <div class="col-lg-4 col-md-5">
                     <div class="service-item p-4">
                         <h4 class="mb-3">📚 Notes</h4>
@@ -142,7 +139,7 @@
                         </select>
                         <ul class="list-group" id="notesList">
                             <li class="list-group-item" data-category="science"
-                                onclick="openNote('note/1.pdf')">Physics Notes</li>
+                                onclick="openNote('notes/physics.pdf')">Physics Notes</li>
                             <li class="list-group-item" data-category="science"
                                 onclick="openNote('notes/chemistry.pdf')">Chemistry Notes</li>
                             <li class="list-group-item" data-category="science"
@@ -159,12 +156,13 @@
                     </div>
                 </div>
 
-                <!-- RIGHT SIDE -->
-                <div class="col-lg-8 col-md-7 position-relative">
-                    <div class="service-item p-4 text-center">
+                <!-- RIGHT -->
+                <div class="col-lg-8 col-md-7">
+                    <div class="service-item p-4">
                         <h5 class="mb-3">📖 Preview</h5>
-                        <canvas id="pdfViewer"></canvas>
-                        <div id="pdfWatermark">Rana Ranker</div>
+                        <div id="pdfContainer">
+                            <div id="pdfWatermark">Rana Ranker</div>
+                        </div>
                         <div class="mt-3">
                             <p id="timerText" class="text-danger fw-bold"></p>
                             <a id="downloadBtn" class="btn btn-primary disabled px-4 py-2" href="#" download>
@@ -176,9 +174,8 @@
             </div>
         </div>
     </div>
-    <!-- NOTES SECTION END -->
 
-    <!-- Footer Start -->
+    <!-- Footer -->
     <div class="container-fluid bg-dark text-light footer pt-5 mt-5">
         <div class="container py-5">
             <div class="row g-5">
@@ -192,7 +189,6 @@
             </div>
         </div>
     </div>
-    <!-- Footer End -->
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
@@ -207,15 +203,10 @@
 
     <!-- Main JS -->
     <script>
-        // Spinner fallback
-        var spinner = function () {
-            setTimeout(function () {
-                if ($('#spinner').length > 0) {
-                    $('#spinner').removeClass('show');
-                }
-            }, 1);
-        };
-        spinner();
+        // Spinner hide
+        $(document).ready(function () {
+            setTimeout(() => $('#spinner').removeClass('show'), 100);
+        });
 
         let timer;
         let timeLeft = 30;
@@ -240,47 +231,34 @@
                 }
             }, 1000);
 
-            const canvas = document.getElementById("pdfViewer");
-            const context = canvas.getContext("2d");
+            const container = document.getElementById("pdfContainer");
+            container.innerHTML = `<div id="pdfWatermark">Rana Ranker</div>`; // clear previous
 
             pdfjsLib.getDocument(file).promise.then(pdf => {
-                pdf.getPage(1).then(page => {
-                    const viewport = page.getViewport({ scale: 1.5 });
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-                    page.render({ canvasContext: context, viewport: viewport }).promise.then(() => {
-                        if ($('#spinner').length > 0) $('#spinner').removeClass('show');
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    pdf.getPage(i).then(page => {
+                        const viewport = page.getViewport({ scale: 1.5 });
+                        const canvas = document.createElement("canvas");
+                        canvas.height = viewport.height;
+                        canvas.width = viewport.width;
+                        container.appendChild(canvas);
+                        page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport });
                     });
-                });
-            }).catch(err => {
-                const iframe = document.getElementById("viewerFallback");
-                if (!iframe) {
-                    const f = document.createElement("iframe");
-                    f.id = "viewerFallback";
-                    f.src = file;
-                    f.width = "100%";
-                    f.height = "500px";
-                    f.style.border = "1px solid #ddd";
-                    f.style.borderRadius = "10px";
-                    canvas.replaceWith(f);
                 }
-                setTimeout(() => {
-                    if ($('#spinner').length > 0) $('#spinner').removeClass('show');
-                }, 100);
+            }).catch(err => {
+                container.innerHTML = `<iframe src="${file}" width="100%" height="600px" style="border:none;"></iframe>`;
             });
         }
 
         function searchNotes() {
             const input = document.getElementById("searchInput").value.toLowerCase();
-            const items = document.querySelectorAll("#notesList li");
-            items.forEach(item => {
+            document.querySelectorAll("#notesList li").forEach(item => {
                 item.style.display = item.innerText.toLowerCase().includes(input) ? "" : "none";
             });
         }
 
         function filterCategory(category) {
-            const items = document.querySelectorAll("#notesList li");
-            items.forEach(item => {
+            document.querySelectorAll("#notesList li").forEach(item => {
                 const cat = item.getAttribute("data-category");
                 item.style.display = (category === "all" || cat === category) ? "" : "none";
             });
